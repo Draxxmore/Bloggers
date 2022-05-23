@@ -1,2 +1,2 @@
-# blog_CRUD
+# Bloggers
 CRUD application for Z-Prefix
