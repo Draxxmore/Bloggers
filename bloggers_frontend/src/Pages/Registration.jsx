@@ -23,6 +23,7 @@ const Registration = () => {
         if (password !== confirmPassword) {
             setPasswordError(true);
             setPasswordErrorMsg("Passwords Must Match!");
+            return;
         }
 
         const options = {
