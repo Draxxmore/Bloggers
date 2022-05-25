@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { TextField, Button } from "@mui/material";
 import loginImage from "../Images/login-image.jpg";
 
 const Login = () => {
   return (
-    <StyledDiv>
+    <PageSettings>
       <LoginContainer>
         <LoginForm>
           <Title>Bloggers</Title>
@@ -15,16 +16,16 @@ const Login = () => {
             Sign in
           </Button>
           <div>
-            Not a member? <RegisterLink>Register</RegisterLink>
+            Not a member? <RegisterLink to="/registration">Register</RegisterLink>
           </div>
         </LoginForm>
         <Image src={loginImage} />
       </LoginContainer>
-    </StyledDiv>
+    </PageSettings>
   );
 };
 
-const StyledDiv = styled.div`
+const PageSettings = styled.div`
   background: salmon;
   display: flex;
   justify-content: center;
@@ -47,6 +48,8 @@ const Title = styled.h1`
   padding: 0px;
   text-align: center;
   margin-bottom: 50px;
+  font-family: "Dancing Script", cursive;
+  font-size: 60px;
 `;
 
 const LoginForm = styled.div`
@@ -58,8 +61,9 @@ const LoginForm = styled.div`
   height: 70vh;
 `;
 
-const RegisterLink = styled.span`
+const RegisterLink = styled(Link)`
   text-decoration: none;
+  color: blue;
 `;
 
 const Image = styled.img`
