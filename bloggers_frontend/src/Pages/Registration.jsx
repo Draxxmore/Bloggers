@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { TextField, Button } from "@mui/material";
-import { findByPlaceholderText } from "@testing-library/react";
 // import registrationImage from "../Images/registration-image3.jpg";
 
 const Registration = () => {
-    const [registrationInfo, setRegistrationInfo] = useState({});
     const [passwordError, setPasswordError] = useState(false);
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
 
@@ -33,10 +31,12 @@ const Registration = () => {
             body: JSON.stringify({ firstName: firstName, lastName: lastName, username: username, password: password }),
         };
 
-        fetch("#", options)
-            .then((response) => response.json())
+        fetch("http://localhost:4000/api/registration", options)
+            .then((response) => {
+                response.json();
+            })
             .then((data) => console.log({ Success: data }))
-            .catch((error) => console.log({ Error: error }));
+            .catch((error) => console.log(error));
     };
 
     return (
@@ -106,14 +106,5 @@ const Text = styled.h2`
     font-size: 70px;
     color: white;
 `;
-
-// const ImageDiv = styled.div``;
-
-// const Image = styled.img`
-//   max-width: 98%;
-//   height: 100%;
-//   opacity: 0.75;
-//   border-radius: 10px;
-// `;
 
 export default Registration;
