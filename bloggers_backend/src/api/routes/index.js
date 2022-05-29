@@ -6,5 +6,6 @@ const loginRoute = require("./login");
 
 router.use("/registration", registrationRoutes);
 router.use("/users", userRoutes);
+router.use("/login", loginRoute);
 
 module.exports = router;

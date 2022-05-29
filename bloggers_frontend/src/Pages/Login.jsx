@@ -30,10 +30,10 @@ const Login = () => {
             body: loginInfo,
         };
 
-        fetch("#", postOptions)
+        fetch("http://localhost:4000/api/login", postOptions)
             .then((response) => response.json())
-            .then(data)
-            .catch(error);
+            .then((data) => {})
+            .catch((error) => console.log(error));
     };
 
     return (

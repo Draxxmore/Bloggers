@@ -12,7 +12,7 @@ router.post("/", async (request, response) => {
     return response.status(400).json({ Error: "Username already exists" });
   }
 
-  const hashedPassword = await bcrypt.hash(request.body.username, 10);
+  const hashedPassword = await bcrypt.hash(request.body.password, 10);
 
   const user = {
     first_name: request.body.firstName,

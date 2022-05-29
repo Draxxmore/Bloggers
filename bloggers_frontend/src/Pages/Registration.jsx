@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { TextField, Button } from "@mui/material";
+import { Navigate } from "react-router-dom";
 // import registrationImage from "../Images/registration-image3.jpg";
 
 const Registration = () => {
@@ -35,7 +36,10 @@ const Registration = () => {
             .then((response) => {
                 response.json();
             })
-            .then((data) => console.log({ Success: data }))
+            .then((data) => {
+                console.log({ Success: data });
+                return <Navigate to="/login" />;
+            })
             .catch((error) => console.log(error));
     };
 
@@ -61,7 +65,13 @@ const Registration = () => {
                         Register
                     </Button>
                 </RegistrationForm>
-                <Text>Bloggers</Text>
+                <Text>
+                    Bloggers
+                    <QuoteContainer>
+                        <Quote>"Don't focus on having a great blog. Focus on producing a blog that's great for your readers."</Quote>
+                        <Author>- Brian Clark</Author>
+                    </QuoteContainer>
+                </Text>
             </RegistrationContainer>
         </PageSettings>
     );
@@ -105,6 +115,25 @@ const Text = styled.h2`
     font-family: "Dancing Script", cursive;
     font-size: 70px;
     color: white;
+`;
+
+const QuoteContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 90%;
+`;
+
+const Quote = styled.h3`
+    font-family: "Dancing Script", cursive;
+    font-size: 50px;
+    color: white;
+`;
+
+const Author = styled.h3`
+    text-align: right;
+    font-size: 50px;
+    margin-right: 50px;
 `;
 
 export default Registration;
