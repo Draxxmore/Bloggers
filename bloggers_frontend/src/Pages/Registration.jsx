@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { TextField, Button } from "@mui/material";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import registrationImage from "../Images/registration-image3.jpg";
 
 const Registration = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -38,7 +39,7 @@ const Registration = () => {
             })
             .then((data) => {
                 console.log({ Success: data });
-                return <Navigate to="/login" />;
+                navigate("/login");
             })
             .catch((error) => console.log(error));
     };

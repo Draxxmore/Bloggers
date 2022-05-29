@@ -7,7 +7,12 @@ const PORT = 4000;
 
 server.listen(PORT, console.log(`API server listening on port ${PORT}`));
 
-server.use(cors());
+server.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 server.use(express.json());
 server.use(cookieParser());
 server.use("/api", routes);

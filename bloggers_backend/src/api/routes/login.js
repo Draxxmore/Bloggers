@@ -5,9 +5,14 @@ const jwt = require("jsonwebtoken");
 const { getUsers } = require("../services");
 require("dotenv").config();
 
+router.use(express.json());
+
 router.post("/", async (request, response) => {
   const username = request.body.username;
   const password = request.body.password;
+
+  console.log(username);
+  console.log(password);
 
   if (!username || !password) {
     throw new Error("Username or password missing");

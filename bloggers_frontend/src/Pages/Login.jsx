@@ -5,34 +5,24 @@ import { TextField, Button } from "@mui/material";
 import loginImage from "../Images/login-image.jpg";
 
 const Login = () => {
-    let loginInfo = {
-        username: document.getElementById("login-username"),
-        password: document.getElementById("login-password"),
-    };
-
-    let postOptions = {
-        mode: "cors",
-        method: "POST",
-        body: loginInfo,
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const loginInfo = {
-            username: document.getElementById("login-username"),
-            password: document.getElementById("login-password"),
+            username: document.getElementById("login-username").value,
+            password: document.getElementById("login-password").value,
         };
 
         const postOptions = {
             mode: "cors",
             method: "POST",
-            body: loginInfo,
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(loginInfo),
         };
 
         fetch("http://localhost:4000/api/login", postOptions)
-            .then((response) => response.json())
-            .then((data) => {})
+            .then(() => console.log("Success!"))
             .catch((error) => console.log(error));
     };
 
