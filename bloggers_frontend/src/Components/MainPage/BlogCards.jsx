@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const BlogCards = (data) => {
+    const [blogCards, setBlogCards] = useState([]);
+
     return <CardContainer>hello</CardContainer>;
 };
 
@@ -12,6 +14,7 @@ const CardContainer = styled.div`
     border-radius: 12px;
     padding: 10px;
     box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.19);
+    margin: 10px;
 `;
 
 export default BlogCards;

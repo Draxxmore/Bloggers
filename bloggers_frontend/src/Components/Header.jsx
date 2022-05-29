@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import LoggedInContext from "../Context/LoggedInContext";
+import UserContext from "../Context/UserContext";
 
 // Consider using MUI App bar
 
 const Header = () => {
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
+    const user = useContext(UserContext);
 
     return (
         <HeaderContainer>
             <Logo>Bloggers</Logo>
-            {loggedIn ? "" : <StyledLink to="/login">Sign In</StyledLink>}
+            {loggedIn ? `Welcome ${user.firstName + " " + user.lastName}` : <StyledLink to="/login">Sign In</StyledLink>}
         </HeaderContainer>
     );
 };

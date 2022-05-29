@@ -1,10 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, createTheme, ThemeProvider } from "@mui/material";
 import loginImage from "../Images/login-image.jpg";
+import LoggedInContext from "../Context/LoggedInContext";
 
 const Login = () => {
+    const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -22,9 +26,17 @@ const Login = () => {
         };
 
         fetch("http://localhost:4000/api/login", postOptions)
-            .then(() => console.log("Success!"))
+            .then(() => {
+                navigate("/");
+                setLoggedIn(true);
+            })
             .catch((error) => console.log(error));
     };
+
+    const limeGreenButtonTheme = createTheme({
+        palette: { primary: { main: "#89E347", darker: "#8AE845", contrastText: "#fff" } },
+        typography: { fontWeightBold: 700 },
+    });
 
     return (
         <PageSettings>
@@ -39,9 +51,11 @@ const Login = () => {
                         type="password"
                         sx={{ width: "60%", margin: 3, marginBottom: 5 }}
                     />
-                    <Button variant="contained" sx={{ width: "60%", borderRadius: 5, marginBottom: 2 }} onClick={handleSubmit}>
-                        Sign in
-                    </Button>
+                    <ThemeProvider theme={limeGreenButtonTheme}>
+                        <Button variant="contained" sx={{ width: "60%", borderRadius: 5, marginBottom: 2 }} onClick={handleSubmit}>
+                            Sign in
+                        </Button>
+                    </ThemeProvider>
                     <div>
                         Not a member? <RegisterLink to="/registration">Register</RegisterLink>
                     </div>

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, ThemeProvider, createTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-// import registrationImage from "../Images/registration-image3.jpg";
 
 const Registration = () => {
     const [passwordError, setPasswordError] = useState(false);
@@ -44,6 +43,11 @@ const Registration = () => {
             .catch((error) => console.log(error));
     };
 
+    const limeGreenButtonTheme = createTheme({
+        palette: { primary: { main: "#89E347", darker: "#8AE845", contrastText: "#fff" } },
+        typography: { fontWeightBold: 700 },
+    });
+
     return (
         <PageSettings>
             <RegistrationContainer>
@@ -62,9 +66,11 @@ const Registration = () => {
                         error={passwordError}
                         helperText={passwordErrorMsg}
                     ></TextField>
-                    <Button variant="contained" sx={{ borderRadius: 10, marginTop: 5, width: "75%", alignSelf: "center" }} onClick={handleSubmit}>
-                        Register
-                    </Button>
+                    <ThemeProvider theme={limeGreenButtonTheme}>
+                        <Button variant="contained" sx={{ borderRadius: 10, marginTop: 5, width: "75%", alignSelf: "center" }} onClick={handleSubmit}>
+                            Register
+                        </Button>
+                    </ThemeProvider>
                 </RegistrationForm>
                 <Text>
                     Bloggers

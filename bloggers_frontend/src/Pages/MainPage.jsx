@@ -1,20 +1,53 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "../Components/Header";
 import BlogCards from "../Components/MainPage/BlogCards";
 import styled from "styled-components";
 import { Button } from "@mui/material";
+import LoggedInContext from "../Context/LoggedInContext";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
+    const [posts, setPosts] = useState([]);
+    const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const options = {
+            mode: "cors",
+            method: "GET",
+        };
+
+        fetch("http://localhost:4000/api/blog", options)
+            .then((response) => response.json())
+            .then((data) => setPosts(data));
+    }, []);
+
+    const handleClick = (event) => {
+        event.preventDefault();
+        navigate("/create-blog");
+    };
+
+    const mainPagePosts = (posts) => {
+        const mainPosts = posts.map((post) => <BlogCards props={post} />);
+        return mainPosts;
+    };
+
+    console.log(posts);
+
     return (
         <div>
             <Header />
             <Heading>Welcome to Bloggers!</Heading>
-            <ButtonContainer>
-                <Button variant="contained">+ New Blog</Button>
-            </ButtonContainer>
-            <CardsContainer>
-                <BlogCards />
-            </CardsContainer>
+            {loggedIn ? (
+                <ButtonContainer>
+                    <Button variant="contained" onClick={handleClick}>
+                        + New Blog
+                    </Button>
+                </ButtonContainer>
+            ) : (
+                ""
+            )}
+            <CardsContainer>{mainPagePosts(posts)}</CardsContainer>
         </div>
     );
 };
@@ -25,7 +58,9 @@ const Heading = styled.h1`
 `;
 
 const CardsContainer = styled.div`
-    margin: 0px 30px;
+    margin: 10px 30px;
+    display: flex;
+    flex-wrap: wrap;
 `;
 
 const ButtonContainer = styled.div`
