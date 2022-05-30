@@ -28,11 +28,9 @@ const MainPage = () => {
     };
 
     const mainPagePosts = (posts) => {
-        const mainPosts = posts.map((post) => <BlogCards props={post} />);
+        const mainPosts = posts.map((post) => <BlogCards data={post} />);
         return mainPosts;
     };
-
-    console.log(posts);
 
     return (
         <div>
