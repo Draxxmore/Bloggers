@@ -75,6 +75,7 @@ const PageContainer = styled.div`
     width: 100%;
     height: 90vh;
     padding-top: 20px;
+    font-family: "Arial", san-serif;
 `;
 
 const CreateBlogForm = styled.div``;
