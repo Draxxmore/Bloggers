@@ -1,5 +1,5 @@
 const getUsers = require("./users");
 const postRegistration = require("./registration");
-const { getBlogs, getUserBlogs, postBlog } = require("./blog");
+const { getBlogs, getUserBlogs, getBlogPost, postBlog, patchBlog } = require("./blog");
 
-module.exports = { getUsers, getBlogs, getUserBlogs, postRegistration, postBlog };
+module.exports = { getUsers, getBlogs, getUserBlogs, getBlogPost, postRegistration, postBlog, patchBlog };
