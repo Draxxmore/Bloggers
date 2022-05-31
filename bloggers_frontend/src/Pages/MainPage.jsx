@@ -5,10 +5,12 @@ import styled from "styled-components";
 import { Button } from "@mui/material";
 import LoggedInContext from "../Context/LoggedInContext";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const MainPage = () => {
     const [posts, setPosts] = useState([]);
     const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
+    const [cookies, setCookies] = useCookies(["access_token"]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,7 +41,7 @@ const MainPage = () => {
             {loggedIn ? (
                 <ButtonContainer>
                     <Button variant="contained" onClick={handleClick}>
-                        + New Blog
+                        + Create Blog
                     </Button>
                 </ButtonContainer>
             ) : (
