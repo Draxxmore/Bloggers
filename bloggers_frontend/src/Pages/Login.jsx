@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TextField, Button, createTheme, ThemeProvider } from "@mui/material";
 import loginImage from "../Images/login-image.jpg";
 import LoggedInContext from "../Context/LoggedInContext";
+import UserContext from "../Context/UserContext";
 
 const Login = () => {
     const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
+    const [user, setUser] = useContext(UserContext);
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
@@ -26,9 +28,11 @@ const Login = () => {
         };
 
         fetch("http://localhost:4000/api/login", postOptions)
-            .then(() => {
+            .then((response) => response.json())
+            .then((data) => {
+                setUser(data);
                 navigate("/");
-                setLoggedIn(true);
+                window.location.reload();
             })
             .catch((error) => console.log(error));
     };
