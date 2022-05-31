@@ -7,10 +7,12 @@ import { useCookies } from "react-cookie";
 import UserContext from "./Context/UserContext";
 import LoggedInContext from "./Context/LoggedInContext";
 import CreateBlog from "./Pages/CreateBlog";
+import ViewSingleBlog from "./Pages/ViewSingleBlog";
+import EditBlog from "./Pages/EditBlog";
 
 const App = () => {
     const [cookies, setCookie] = useCookies(["access-token"]);
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -18,8 +20,8 @@ const App = () => {
             const userInfo = JSON.parse(atob(cookies.access_token.split(".")[1]));
             setUser({
                 id: userInfo[0].id,
-                firstName: userInfo[0].first_name,
-                lastName: userInfo[0].last_name,
+                first_name: userInfo[0].first_name,
+                last_name: userInfo[0].last_name,
                 username: userInfo[0].username,
             });
             setLoggedIn(true);
@@ -27,7 +29,7 @@ const App = () => {
     }, []);
 
     return (
-        <UserContext.Provider value={user}>
+        <UserContext.Provider value={[user, setUser]}>
             <LoggedInContext.Provider value={[loggedIn, setLoggedIn]}>
                 <div>
                     <Router>
@@ -36,6 +38,8 @@ const App = () => {
                             <Route path="/registration" element={<Registration />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/create-blog" element={<CreateBlog />} />
+                            <Route path="/blog-post" element={<ViewSingleBlog />} />
+                            <Route path="/edit-blog" element={<EditBlog />} />
                         </Routes>
                     </Router>
                 </div>
