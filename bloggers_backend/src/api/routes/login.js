@@ -32,7 +32,7 @@ router.post("/", async (request, response) => {
 
   if (passwordCheck) {
     const signedJWT = jwt.sign(JSON.stringify(userInDb), process.env.ACCESS_TOKEN);
-    return response.status(201).cookie("access_token", signedJWT).json({ message: "Successfully logged in!" });
+    return response.status(201).cookie("access_token", signedJWT).json(userInDb);
   } else {
     return response.status(403).send({ Error: "Username/password incorrect" });
   }
