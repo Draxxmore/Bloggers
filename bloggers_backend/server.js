@@ -16,6 +16,8 @@ server.use(
   })
 );
 
+server.options("*", cors());
+
 server.use(express.json());
 server.use(cookieParser());
 server.use("/api", routes);
