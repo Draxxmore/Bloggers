@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { getUsers, postRegistration } = require("../services");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 router.post("/", async (request, response) => {
   const usernameInDB = await getUsers().then((data) =>

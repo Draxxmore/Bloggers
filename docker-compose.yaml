@@ -1,0 +1,58 @@
+version: "3"
+
+volumes:
+  pgdatasource:
+
+services:
+  bloggers-db:
+    image: postgres
+    restart: always
+    environment:
+      DATABASE_HOST: 127.0.0.1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: bloggers_db
+      POSTGRES_HOST: postgresql
+    env_file:
+      - bloggers_backend/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdatasource:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  back-end:
+    build: ./bloggers_backend
+    ports:
+      - "4000:4000"
+    depends_on:
+      bloggers-db:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=bloggers-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=bloggers_db
+    volumes:
+      - type: bind
+        source: ./bloggers_backend
+        target: /app
+    command: npm run start
+
+  front-end:
+    build: ./bloggers_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: bind
+        source: ./bloggers_frontend
+        target: /app
+        # - "./front-end:/app"
+    depends_on:
+      - "back-end"
