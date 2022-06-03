@@ -1,17 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
 import BlogCards from "../Components/MainPage/BlogCards";
 import styled from "styled-components";
-import { Button } from "@mui/material";
-import LoggedInContext from "../Context/LoggedInContext";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 
 const MainPage = () => {
     const [posts, setPosts] = useState([]);
-    const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
-    const [cookies, setCookies] = useCookies(["access_token"]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const options = {
@@ -21,16 +14,14 @@ const MainPage = () => {
 
         fetch("http://localhost:4000/api/blog", options)
             .then((response) => response.json())
-            .then((data) => setPosts(data));
+            .then((data) => {
+                let sortPostByDate = data.sort((obj1, obj2) => new Date(obj2.creation_date) - new Date(obj1.creation_date));
+                setPosts(sortPostByDate);
+            });
     }, []);
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        navigate("/create-blog");
-    };
-
     const mainPagePosts = (posts) => {
-        const mainPosts = posts.map((post) => <BlogCards data={post} />);
+        const mainPosts = posts.map((post) => <BlogCards key={posts.id} data={post} />);
         return mainPosts;
     };
 
@@ -38,15 +29,6 @@ const MainPage = () => {
         <div>
             <Header />
             <Heading>Welcome to Bloggers!</Heading>
-            {loggedIn ? (
-                <ButtonContainer>
-                    <Button variant="contained" onClick={handleClick}>
-                        + Create Blog
-                    </Button>
-                </ButtonContainer>
-            ) : (
-                ""
-            )}
             <CardsContainer>{mainPagePosts(posts)}</CardsContainer>
         </div>
     );

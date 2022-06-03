@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getBlogs, getUserBlogs, getBlogPost, postBlog, patchBlog } = require("../services");
+const { getBlogs, getUserBlogs, getBlogPost, postBlog, patchBlog, deleteBlogPost } = require("../services");
 
 router.get("/", async (request, response) => {
   await getBlogs()
@@ -47,6 +47,14 @@ router.patch("/:post_id", async (request, response) => {
 
   await patchBlog(postId, post)
     .then(() => response.status(201).json({ Message: "Blog has been edited" }))
+    .catch((error) => response.status(500).json({ Error: error }));
+});
+
+router.delete("/:post_id", async (request, response) => {
+  const postId = request.params.post_id;
+
+  await deleteBlogPost(postId)
+    .then(() => response.status(201).json({ Message: "Blog post has been deleted" }))
     .catch((error) => response.status(500).json({ Error: error }));
 });
 

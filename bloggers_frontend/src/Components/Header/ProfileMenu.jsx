@@ -28,9 +28,14 @@ const ProfileMenu = () => {
     };
 
     const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
         removeCookie("access_token");
         setAnchorEl(null);
         setLoggedIn(false);
+        navigate("/");
         window.location.reload();
     };
 
@@ -52,7 +57,7 @@ const ProfileMenu = () => {
                 <></>
             )}
             <Menu id="profile-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ "aria-labelledby": "profile-button" }}>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
         </>
     );

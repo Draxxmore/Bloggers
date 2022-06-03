@@ -31,7 +31,7 @@ const Login = () => {
             .then((response) => response.json())
             .then((data) => {
                 setUser(data);
-                navigate("/");
+                navigate("/my-blogs");
                 window.location.reload();
             })
             .catch((error) => console.log(error));

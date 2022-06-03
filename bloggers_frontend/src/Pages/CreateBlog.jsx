@@ -6,10 +6,8 @@ import UserContext from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const CreateBlog = () => {
-    const user = useContext(UserContext);
+    const [user, setUser] = useContext(UserContext);
     const navigate = useNavigate();
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -26,12 +24,10 @@ const CreateBlog = () => {
             body: JSON.stringify(blogPost),
         };
 
-        console.log(document.getElementById("create-blog-title"));
-
         fetch(`http://localhost:4000/api/blog/${user.id}`, options)
             .then(() => {
                 console.log("Success!");
-                navigate("/");
+                navigate("/my-blogs");
             })
             .catch((error) => console.log(error));
     };
@@ -48,19 +44,13 @@ const CreateBlog = () => {
             <PageContainer>
                 <CreateBlogForm>
                     <TitleHeader>Blog Title</TitleHeader>
-                    <Box sx={{ marginBottom: 2 }}>
-                        <TextField id="create-blog-title" sx={{ width: 700 }} />
-                    </Box>
+                    <TextField id="create-blog-title" sx={{ width: "100%" }} />
                     <TitleHeader>Blog Content</TitleHeader>
-                    <Box sx={{ marginBottom: 2 }}>
-                        <TextField id="create-blog-content" sx={{ width: 700, height: "80%" }} rows={20} multiline />
-                    </Box>
+                    <TextField id="create-blog-content" sx={{ width: "100%" }} rows={20} multiline />
                     <ThemeProvider theme={limeGreenButtonTheme}>
-                        <ButtonContainer>
-                            <Button variant="contained" onClick={handleSubmit}>
-                                Create Blog Post
-                            </Button>
-                        </ButtonContainer>
+                        <Button variant="contained" sx={{ width: "100%", marginTop: 2 }} onClick={handleSubmit}>
+                            Create Blog Post
+                        </Button>
                     </ThemeProvider>
                 </CreateBlogForm>
             </PageContainer>
@@ -78,19 +68,26 @@ const PageContainer = styled.div`
     font-family: "Arial", san-serif;
 `;
 
-const CreateBlogForm = styled.div``;
+const CreateBlogForm = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 65vw;
+`;
 
 const TitleHeader = styled.h3`
     margin: 5px 0px;
+    align-self: left;
+    width: 100%;
+    margin-top: 20px;
 `;
 
 const PageTitle = styled.h1`
     text-align: center;
+    font-family: "Arial", san-serif;
+    margin-bottom: 0px;
 `;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: right;
-`;
+const ButtonContainer = styled.div``;
 
 export default CreateBlog;

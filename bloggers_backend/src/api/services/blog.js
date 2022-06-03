@@ -33,4 +33,8 @@ const patchBlog = async (postId, post) => {
   return await knex("posts").where("id", postId).update(post);
 };
 
-module.exports = { getUserBlogs, getBlogs, getBlogPost, postBlog, patchBlog };
+const deleteBlogPost = async (postId) => {
+  return await knex("posts").where("id", postId).del();
+};
+
+module.exports = { getUserBlogs, getBlogs, getBlogPost, postBlog, patchBlog, deleteBlogPost };

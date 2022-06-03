@@ -14,7 +14,18 @@ const Header = () => {
     return (
         <HeaderContainer>
             <Logo to="/">Bloggers</Logo>
-            {loggedIn ? <ProfileMenu /> : <StyledLink to="/login">Sign In</StyledLink>}
+            {loggedIn ? (
+                <>
+                    <AllPostsLink to="/">All Blogs</AllPostsLink>
+                    <MyPostLink to="/my-blogs">My Posts</MyPostLink>
+                    <ProfileMenu />
+                </>
+            ) : (
+                <>
+                    <AllPostsLink to="/">All Blogs</AllPostsLink>
+                    <StyledLink to="/login">Sign In</StyledLink>
+                </>
+            )}
         </HeaderContainer>
     );
 };
@@ -37,6 +48,18 @@ const Logo = styled(Link)`
     font-size: 40px;
     color: white;
     text-decoration: none;
+`;
+
+const MyPostLink = styled(Link)`
+    font-family: "Arial", san-serif;
+    text-decoration: none;
+    color: white;
+`;
+
+const AllPostsLink = styled(Link)`
+    font-family: "Arial", san-serif;
+    text-decoration: none;
+    color: white;
 `;
 
 const Name = styled.span`

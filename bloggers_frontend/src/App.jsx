@@ -9,10 +9,11 @@ import LoggedInContext from "./Context/LoggedInContext";
 import CreateBlog from "./Pages/CreateBlog";
 import ViewSingleBlog from "./Pages/ViewSingleBlog";
 import EditBlog from "./Pages/EditBlog";
+import UserBlogSummary from "./Pages/UserBlogSummary";
 
 const App = () => {
     const [cookies, setCookie] = useCookies(["access-token"]);
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -40,6 +41,7 @@ const App = () => {
                             <Route path="/create-blog" element={<CreateBlog />} />
                             <Route path="/blog-post" element={<ViewSingleBlog />} />
                             <Route path="/edit-blog" element={<EditBlog />} />
+                            <Route path="/my-blogs" element={<UserBlogSummary />} />
                         </Routes>
                     </Router>
                 </div>

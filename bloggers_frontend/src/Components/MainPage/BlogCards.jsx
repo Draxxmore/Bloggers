@@ -12,9 +12,9 @@ const BlogCards = ({ data }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const blogContentArr = blogCards.content.split(" ");
+        const blogContentArr = blogCards.content.split("");
         if (blogContentArr.length > 100) {
-            const displayContent = blogContentArr.slice(0, 99).join(" ") + "...";
+            const displayContent = blogContentArr.slice(0, 100).join("") + "...";
             setBlogCardContent(displayContent);
         } else {
             setBlogCardContent(blogCards.content);
@@ -28,20 +28,15 @@ const BlogCards = ({ data }) => {
 
     return (
         <CardContainer onClick={handleSubmit} onMouseEnter={() => setShowButtons(true)} onMouseLeave={() => setShowButtons(false)}>
-            {/* {showButtons && (
-                <>
-                    <DeleteButton />
-                    <EditButton />
-                </>
-            )} */}
             <BlogTitle>{blogCards.title}</BlogTitle>
+            <BlogCreationDate>Created on {new Date(blogCards.creation_date).toDateString()}</BlogCreationDate>
             <BlogContent>{blogCardContent}</BlogContent>
         </CardContainer>
     );
 };
 
 const CardContainer = styled.div`
-    height: 250px;
+    height: 175px;
     width: 510px;
     border-radius: 7px;
     padding: 15px 20px;
@@ -51,6 +46,7 @@ const CardContainer = styled.div`
     color: black;
     overflow: hidden;
     white-space: pre-wrap;
+    cursor: pointer;
     &:hover {
         box-shadow: 3px 3px 7px 3px rgba(0, 0, 0, 0.4);
     }
@@ -61,6 +57,11 @@ const BlogTitle = styled.h3`
 `;
 const BlogContent = styled.p`
     font-family: "Arial", san-serif;
+`;
+
+const BlogCreationDate = styled.p`
+    font-family: "Arial", san-serif;
+    font-style: italic;
 `;
 
 export default BlogCards;

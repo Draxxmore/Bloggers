@@ -2,14 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../Components/Header";
-import { Button } from "@mui/material";
-import LoggedInContext from "../Context/LoggedInContext";
+import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
+import UserContext from "../Context/UserContext";
 
 const ViewSingleBlog = () => {
     const { state } = useLocation();
-    const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
     const [blogPostInfo, setBlogPostInfo] = useState([]);
     const [displayButtons, setDisplayButtons] = useState(false);
+    const [editToggle, setEditToggle] = useState(false);
+    const [user, setUser] = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,19 +28,54 @@ const ViewSingleBlog = () => {
     }, []);
 
     useEffect(() => {
-        if (loggedIn) {
+        if (state.user_id === user.id) {
             setDisplayButtons(true);
         } else {
             setDisplayButtons(false);
         }
-    }, [blogPostInfo]);
+    }, [blogPostInfo, user]);
 
     const handleEdit = (event) => {
         event.preventDefault();
-        navigate("/edit-blog", { state: blogPostInfo });
+
+        const editedBlogContent = {
+            title: document.getElementById("edit-blog__title").value,
+            content: document.getElementById("edit-blog__content").value,
+        };
+
+        const fetchOptions = {
+            mode: "cors",
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(editedBlogContent),
+        };
+
+        fetch(`http://localhost:4000/api/blog/${state.id}`, fetchOptions)
+            .then(() => {
+                setEditToggle(false);
+                navigate("/my-blogs");
+            })
+            .catch((error) => console.log(error));
     };
 
-    const handleDelete = (event) => {};
+    const handleEditToggle = () => {
+        setEditToggle(!editToggle);
+    };
+
+    const handleDelete = (event) => {
+        event.preventDefault();
+
+        const fetchOptions = {
+            mode: "cors",
+            method: "DELETE",
+        };
+
+        fetch(`http://localhost:4000/api/blog/${state.id}`, fetchOptions)
+            .then(() => {
+                navigate("/my-blogs");
+            })
+            .catch((error) => console.log(error));
+    };
 
     const author = blogPostInfo.first_name + " " + blogPostInfo.last_name;
 
@@ -50,22 +86,36 @@ const ViewSingleBlog = () => {
                 <ButtonContainer>
                     {displayButtons ? (
                         <>
-                            <Button onClick={handleEdit} variant="contained">
-                                Edit
+                            <FormControlLabel
+                                control={<Switch checked={editToggle} onChange={handleEditToggle} />}
+                                label="Edit"
+                                labelPlacement="start"
+                            />
+                            <Button variant="contained" onClick={handleDelete}>
+                                Delete
                             </Button>
-                            <Button variant="contained">Delete</Button>
                         </>
                     ) : (
                         ""
                     )}
                 </ButtonContainer>
-                <Container>
-                    <Title>{blogPostInfo.title}</Title>
-                    <Author>
-                        Created by {author} on {new Date(blogPostInfo.creation_date).toDateString()}
-                    </Author>
-                    <Content>{blogPostInfo.content}</Content>
-                </Container>
+                {!editToggle ? (
+                    <Container>
+                        <Title>{blogPostInfo.title}</Title>
+                        <Author>
+                            Created by {author} on {new Date(blogPostInfo.creation_date).toDateString()}
+                        </Author>
+                        <Content>{blogPostInfo.content}</Content>
+                    </Container>
+                ) : (
+                    <Container>
+                        <TextField id="edit-blog__title" defaultValue={blogPostInfo.title} label="Title"></TextField>
+                        <TextField id="edit-blog__content" defaultValue={blogPostInfo.content} label="Content" rows={20} multiline></TextField>
+                        <Button variant="contained" onClick={handleEdit}>
+                            Update Blog
+                        </Button>
+                    </Container>
+                )}
             </BlogPostContainer>
         </>
     );
@@ -77,7 +127,6 @@ const BlogPostContainer = styled.div`
     flex-direction: column;
     width: 100%;
     height: 90vh;
-    border: solid red 1px;
     font-family: "Arial", san-serif;
 `;
 
@@ -87,6 +136,7 @@ const ButtonContainer = styled.div`
     justify-content: right;
     margin-top: 20px;
     gap: 10px;
+    margin-bottom: 20px;
 `;
 
 const Title = styled.h1``;
@@ -104,6 +154,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 65vw;
+    gap: 15px;
 `;
 
 export default ViewSingleBlog;
