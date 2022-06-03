@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { getUsers, postRegistration } = require("../services");
 const bcrypt = require("bcryptjs");
+const cors = require("cors");
+
+router.use(cors());
 
 router.post("/", async (request, response) => {
   const usernameInDB = await getUsers().then((data) =>
