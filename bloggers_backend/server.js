@@ -12,7 +12,7 @@ const whitelist = ["http://localhost:3000", "https://bloggers-ui.herokuapp.com/"
 server.use(
   cors({
     credentials: true,
-    origin: "https://bloggers-ui.herokuapp.com",
+    origin: "https://bloggers-ui.herokuapp.com/",
   })
 );
 
