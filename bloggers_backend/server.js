@@ -13,6 +13,7 @@ server.use(
   cors({
     origin: "*",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })
 );
 
