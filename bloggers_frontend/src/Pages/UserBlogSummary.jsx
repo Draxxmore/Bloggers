@@ -5,6 +5,9 @@ import BlogCards from "../Components/MainPage/BlogCards";
 import UserContext from "../Context/UserContext";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
+
+const ApiUrl = config[process.env.REACT_APP_NODE_ENV || "development"].apiUrl;
 
 const UserBlogSummary = () => {
     const [myBlogPosts, setMyBlogPosts] = useState([]);
@@ -17,15 +20,13 @@ const UserBlogSummary = () => {
             method: "GET",
         };
 
-        fetch(`http://localhost:4000/api/blog/`, options)
+        fetch(`${ApiUrl}/api/blog/`, options)
             .then((response) => response.json())
             .then((data) => {
                 setMyBlogPosts(data);
             })
             .catch((error) => console.log(error));
     }, []);
-
-    console.log(user);
 
     const userPagePosts = (posts) => {
         const userPosts = posts.map((post) => {

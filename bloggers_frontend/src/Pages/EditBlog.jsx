@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import { Button, TextField, Box } from "@mui/material";
+import config from "../config";
+
+const ApiUrl = config[process.env.REACT_APP_NODE_ENV || "development"].apiUrl;
 
 const EditBlog = () => {
     const { state } = useLocation();
@@ -23,7 +26,7 @@ const EditBlog = () => {
             body: JSON.stringify(editedBlogContent),
         };
 
-        fetch(`http://localhost:4000/api/blog/${state.post_id}`, fetchOptions)
+        fetch(`${ApiUrl}/api/blog/${state.post_id}`, fetchOptions)
             .then(() => navigate(-1))
             .catch((error) => console.log(error));
     };

@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { TextField, Button, ThemeProvider, createTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
+
+const ApiUrl = config[process.env.REACT_APP_NODE_ENV || "development"].apiUrl;
 
 const Registration = () => {
     const [passwordError, setPasswordError] = useState(false);
@@ -32,7 +35,7 @@ const Registration = () => {
             body: JSON.stringify({ firstName: firstName, lastName: lastName, username: username, password: password }),
         };
 
-        fetch("http://localhost:4000/api/registration", options)
+        fetch(`${ApiUrl}/api/registration`, options)
             .then((response) => {
                 response.json();
             })

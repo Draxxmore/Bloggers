@@ -4,6 +4,9 @@ import { Box, TextField, Button, ThemeProvider, createTheme } from "@mui/materia
 import styled from "styled-components";
 import UserContext from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
+
+const ApiUrl = config[process.env.REACT_APP_NODE_ENV || "development"].apiUrl;
 
 const CreateBlog = () => {
     const [user, setUser] = useContext(UserContext);
@@ -24,7 +27,7 @@ const CreateBlog = () => {
             body: JSON.stringify(blogPost),
         };
 
-        fetch(`http://localhost:4000/api/blog/${user.id}`, options)
+        fetch(`${ApiUrl}/api/blog/${user.id}`, options)
             .then(() => {
                 console.log("Success!");
                 navigate("/my-blogs");

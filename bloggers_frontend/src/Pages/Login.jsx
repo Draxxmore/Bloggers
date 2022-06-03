@@ -5,6 +5,9 @@ import { TextField, Button, createTheme, ThemeProvider } from "@mui/material";
 import loginImage from "../Images/login-image.jpg";
 import LoggedInContext from "../Context/LoggedInContext";
 import UserContext from "../Context/UserContext";
+import config from "../config";
+
+const ApiUrl = config[process.env.REACT_APP_NODE_ENV || "development"].apiUrl;
 
 const Login = () => {
     const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
@@ -27,7 +30,7 @@ const Login = () => {
             body: JSON.stringify(loginInfo),
         };
 
-        fetch("http://localhost:4000/api/login", postOptions)
+        fetch(`${ApiUrl}/api/login`, postOptions)
             .then((response) => response.json())
             .then((data) => {
                 setUser(data);

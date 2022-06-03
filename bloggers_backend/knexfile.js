@@ -3,15 +3,22 @@
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
+
+const HOST = process.env.DATABASE_HOST || "127.0.0.1";
+const USER = porcess.env.POSTGRES_USER || "postgres";
+const PASSWORD = process.env.POSTGRES_PASSWORD || "docker";
+const DATABASE = process.env.POSTGRES_DB || "bloggers_db";
+const PORT = process.env.PORT || 5432;
+
 module.exports = {
   development: {
     client: "postgresql",
     connection: {
-      host: "bloggers-db",
-      port: 5432,
-      user: "postgres",
-      password: "docker",
-      database: "bloggers_db",
+      host: HOST,
+      port: PORT,
+      user: USER,
+      password: PASSWORD,
+      database: DATABASE,
     },
   },
 
@@ -33,17 +40,16 @@ module.exports = {
 
   production: {
     client: "postgresql",
-    connection: {
-      database: "my_db",
-      user: "username",
-      password: "password",
-    },
+    connection: process.env.DATABASE_URL + `?ssl=no-verify`,
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      tableName: "knex_migrations",
+      directory: "./migrations",
+    },
+    seeds: {
+      directory: "./seeds",
     },
   },
 };

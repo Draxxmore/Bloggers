@@ -4,6 +4,9 @@ import styled from "styled-components";
 import Header from "../Components/Header";
 import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
 import UserContext from "../Context/UserContext";
+import config from "../config";
+
+const ApiUrl = config[process.env.REACT_APP_NODE_ENV || "development"].apiUrl;
 
 const ViewSingleBlog = () => {
     const { state } = useLocation();
@@ -20,7 +23,7 @@ const ViewSingleBlog = () => {
             headers: { "Content-Type": "application/json" },
         };
 
-        fetch(`http://localhost:4000/api/blog/blog-post/${state.id}`, options)
+        fetch(`${ApiUrl}/api/blog/blog-post/${state.id}`, options)
             .then((response) => response.json())
             .then((data) => {
                 setBlogPostInfo(data[0]);
@@ -50,7 +53,7 @@ const ViewSingleBlog = () => {
             body: JSON.stringify(editedBlogContent),
         };
 
-        fetch(`http://localhost:4000/api/blog/${state.id}`, fetchOptions)
+        fetch(`${ApiUrl}/api/blog/${state.id}`, fetchOptions)
             .then(() => {
                 setEditToggle(false);
                 navigate("/my-blogs");
@@ -70,7 +73,7 @@ const ViewSingleBlog = () => {
             method: "DELETE",
         };
 
-        fetch(`http://localhost:4000/api/blog/${state.id}`, fetchOptions)
+        fetch(`${ApiUrl}/api/blog/${state.id}`, fetchOptions)
             .then(() => {
                 navigate("/my-blogs");
             })
