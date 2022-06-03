@@ -4,7 +4,7 @@ const config = {
     },
 
     production: {
-        apiUrl: "https://bloggers-z-api.herokuapp.com/",
+        apiUrl: "https://bloggers-z-api.herokuapp.com",
     },
     test: {
         apiUrl: "",
