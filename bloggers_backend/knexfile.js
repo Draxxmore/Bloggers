@@ -5,7 +5,7 @@
  */
 
 const HOST = process.env.DATABASE_HOST || "127.0.0.1";
-const USER = porcess.env.POSTGRES_USER || "postgres";
+const USER = process.env.POSTGRES_USER || "postgres";
 const PASSWORD = process.env.POSTGRES_PASSWORD || "docker";
 const DATABASE = process.env.POSTGRES_DB || "bloggers_db";
 const PORT = process.env.PORT || 5432;
