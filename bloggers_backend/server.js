@@ -7,12 +7,14 @@ const PORT = process.env.PORT || 4000;
 
 server.listen(PORT, console.log(`API server listening on port ${PORT}`));
 
-const whitelist = ["http://localhost:3000", "https://bloggers-ui.herokuapp.com/"];
+const whitelist = ["http://localhost:3000", "https://bloggers-ui.herokuapp.com"];
 
 server.use(
   cors({
-    credentials: true,
     origin: "*",
+    methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
+    headers: "X-Requested-With, content-type",
+    credentials: true,
   })
 );
 
