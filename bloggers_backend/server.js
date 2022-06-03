@@ -9,14 +9,7 @@ server.listen(PORT, console.log(`API server listening on port ${PORT}`));
 
 const whitelist = ["http://localhost:3000", "https://bloggers-ui.herokuapp.com"];
 
-server.use(
-  cors({
-    origin: ["http://localhost:3000", "https://bloggers-ui.herokuapp.com"],
-    methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-    headers: "X-Requested-With, content-type",
-    credentials: true,
-  })
-);
+server.use(cors());
 
 server.use(express.json());
 server.use(cookieParser());
