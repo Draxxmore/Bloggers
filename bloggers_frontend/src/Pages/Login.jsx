@@ -33,7 +33,7 @@ const Login = () => {
         fetch(`${ApiUrl}/api/login`, postOptions)
             .then((response) => response.json())
             .then(() => {
-                // setUser(data);
+                setUser(data);
                 setLoggedIn(true);
                 navigate("/my-blogs");
                 // window.location.reload();
