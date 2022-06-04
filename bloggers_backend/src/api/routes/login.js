@@ -34,7 +34,7 @@ router.post("/", async (request, response) => {
     const signedJWT = jwt.sign(JSON.stringify(userInDb), process.env.ACCESS_TOKEN);
     return response
       .status(201)
-      .cookie("access_token", signedJWT, { sameSite: "none", secure: true, httpOnly: true })
+      .cookie("access_token", signedJWT, { sameSite: "none", secure: true, httpOnly: false })
       .json(userInDb);
   } else {
     return response.status(403).send({ Error: "Username/password incorrect" });
