@@ -20,16 +20,19 @@ const App = () => {
     console.log(loggedIn);
 
     useEffect(() => {
-        if (cookies.access_token) {
-            const userInfo = JSON.parse(atob(cookies.access_token.split(".")[1]));
-            setUser({
-                id: userInfo[0].id,
-                first_name: userInfo[0].first_name,
-                last_name: userInfo[0].last_name,
-                username: userInfo[0].username,
-            });
-            setLoggedIn(true);
-        }
+        // Save cookie to the browser for local storage
+        setCookie("access-token", user, { path: "/" });
+
+        console.log(cookies);
+
+        const userInfo = JSON.parse(atob(user.split(".")[1]));
+        setUser({
+            id: userInfo[0].id,
+            first_name: userInfo[0].first_name,
+            last_name: userInfo[0].last_name,
+            username: userInfo[0].username,
+        });
+        setLoggedIn(true);
     }, []);
 
     return (
