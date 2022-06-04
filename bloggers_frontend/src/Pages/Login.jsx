@@ -32,11 +32,11 @@ const Login = () => {
 
         fetch(`${ApiUrl}/api/login`, postOptions)
             .then((response) => response.json())
-            .then((data) => {
-                setUser(data);
-                navigate("/my-blogs");
+            .then(() => {
+                // setUser(data);
                 setLoggedIn(true);
-                window.location.reload();
+                navigate("/my-blogs");
+                // window.location.reload();
             })
             .catch((error) => console.log(error));
     };
