@@ -35,7 +35,8 @@ const Login = () => {
             .then((data) => {
                 setUser(data);
                 navigate("/my-blogs");
-                // window.location.reload();
+                setLoggedIn(true);
+                window.location.reload();
             })
             .catch((error) => console.log(error));
     };
