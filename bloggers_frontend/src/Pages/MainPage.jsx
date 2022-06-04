@@ -24,7 +24,7 @@ const MainPage = () => {
     }, []);
 
     const mainPagePosts = (posts) => {
-        const mainPosts = posts.map((post) => <BlogCards key={posts.id} data={post} />);
+        const mainPosts = posts.map((post) => <BlogCards key={post.id} data={post} />);
         return mainPosts;
     };
 

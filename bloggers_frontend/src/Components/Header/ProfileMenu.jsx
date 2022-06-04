@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, createTheme, ThemeProvider } from "@mui/material";
 import UserContext from "../../Context/UserContext";
 import { useCookies } from "react-cookie";
 import LoggedInContext from "../../Context/LoggedInContext";
@@ -39,20 +39,27 @@ const ProfileMenu = () => {
         window.location.reload();
     };
 
+    const limeGreenButtonTheme = createTheme({
+        palette: { primary: { main: "#89E347", darker: "#8AE845", contrastText: "#fff" } },
+        typography: { fontWeightBold: 700 },
+    });
+
     return (
         <>
             {initials.length ? (
-                <Button
-                    id="profile-button"
-                    variant="contained"
-                    sx={{ borderRadius: 50, width: 50, height: 60, fontSize: 25 }}
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={handleClick}
-                >
-                    {initials}
-                </Button>
+                <ThemeProvider theme={limeGreenButtonTheme}>
+                    <Button
+                        id="profile-button"
+                        variant="contained"
+                        sx={{ borderRadius: 50, width: 50, height: 60, fontSize: 25 }}
+                        aria-controls={open ? "basic-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? "true" : undefined}
+                        onClick={handleClick}
+                    >
+                        {initials}
+                    </Button>
+                </ThemeProvider>
             ) : (
                 <></>
             )}

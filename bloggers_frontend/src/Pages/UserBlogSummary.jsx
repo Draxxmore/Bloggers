@@ -3,7 +3,7 @@ import Header from "../Components/Header";
 import styled from "styled-components";
 import BlogCards from "../Components/MainPage/BlogCards";
 import UserContext from "../Context/UserContext";
-import { Button } from "@mui/material";
+import { Button, createTheme, ThemeProvider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import config from "../config";
 
@@ -31,7 +31,7 @@ const UserBlogSummary = () => {
     const userPagePosts = (posts) => {
         const userPosts = posts.map((post) => {
             if (user.id === post.user_id) {
-                return <BlogCards data={post} />;
+                return <BlogCards data={post} key={post.id} />;
             }
         });
         return userPosts;
@@ -42,16 +42,23 @@ const UserBlogSummary = () => {
         navigate("/create-blog");
     };
 
+    const limeGreenButtonTheme = createTheme({
+        palette: { primary: { main: "#89E347", darker: "#8AE845", contrastText: "#fff" } },
+        typography: { fontWeightBold: 700 },
+    });
+
     return (
         <>
             <Header />
             <PageContainer>
                 <MyBlogPageHeader>My Blogs</MyBlogPageHeader>
-                <ButtonContainer>
-                    <Button variant="contained" onClick={handleCreateBlog} sx={{ marginLeft: 5 }}>
-                        Create Blog
-                    </Button>
-                </ButtonContainer>
+                <ThemeProvider theme={limeGreenButtonTheme}>
+                    <ButtonContainer>
+                        <Button variant="contained" onClick={handleCreateBlog} sx={{ marginLeft: 5 }}>
+                            Create Blog
+                        </Button>
+                    </ButtonContainer>
+                </ThemeProvider>
                 {userPagePosts(myBlogPosts).includes(!undefined) ? (
                     <NoBlogs>You have no blogs</NoBlogs>
                 ) : (

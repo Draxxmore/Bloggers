@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../Components/Header";
-import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
+import { Button, FormControlLabel, Switch, TextField, createTheme, ThemeProvider } from "@mui/material";
 import UserContext from "../Context/UserContext";
 import config from "../config";
 
@@ -82,44 +82,51 @@ const ViewSingleBlog = () => {
 
     const author = blogPostInfo.first_name + " " + blogPostInfo.last_name;
 
+    const limeGreenButtonTheme = createTheme({
+        palette: { primary: { main: "#89E347", darker: "#8AE845", contrastText: "#fff" } },
+        typography: { fontWeightBold: 700 },
+    });
+
     return (
         <>
             <Header />
-            <BlogPostContainer>
-                <ButtonContainer>
-                    {displayButtons ? (
-                        <>
-                            <FormControlLabel
-                                control={<Switch checked={editToggle} onChange={handleEditToggle} />}
-                                label="Edit"
-                                labelPlacement="start"
-                            />
-                            <Button variant="contained" onClick={handleDelete}>
-                                Delete
-                            </Button>
-                        </>
+            <ThemeProvider theme={limeGreenButtonTheme}>
+                <BlogPostContainer>
+                    <ButtonContainer>
+                        {displayButtons ? (
+                            <>
+                                <FormControlLabel
+                                    control={<Switch checked={editToggle} onChange={handleEditToggle} />}
+                                    label="Edit"
+                                    labelPlacement="start"
+                                />
+                                <Button variant="contained" onClick={handleDelete}>
+                                    Delete
+                                </Button>
+                            </>
+                        ) : (
+                            ""
+                        )}
+                    </ButtonContainer>
+                    {!editToggle ? (
+                        <Container>
+                            <Title>{blogPostInfo.title}</Title>
+                            <Author>
+                                Created by {author} on {new Date(blogPostInfo.creation_date).toDateString()}
+                            </Author>
+                            <Content>{blogPostInfo.content}</Content>
+                        </Container>
                     ) : (
-                        ""
+                        <Container>
+                            <TextField id="edit-blog__title" defaultValue={blogPostInfo.title} label="Title"></TextField>
+                            <TextField id="edit-blog__content" defaultValue={blogPostInfo.content} label="Content" rows={20} multiline></TextField>
+                            <Button variant="contained" onClick={handleEdit}>
+                                Update Blog
+                            </Button>
+                        </Container>
                     )}
-                </ButtonContainer>
-                {!editToggle ? (
-                    <Container>
-                        <Title>{blogPostInfo.title}</Title>
-                        <Author>
-                            Created by {author} on {new Date(blogPostInfo.creation_date).toDateString()}
-                        </Author>
-                        <Content>{blogPostInfo.content}</Content>
-                    </Container>
-                ) : (
-                    <Container>
-                        <TextField id="edit-blog__title" defaultValue={blogPostInfo.title} label="Title"></TextField>
-                        <TextField id="edit-blog__content" defaultValue={blogPostInfo.content} label="Content" rows={20} multiline></TextField>
-                        <Button variant="contained" onClick={handleEdit}>
-                            Update Blog
-                        </Button>
-                    </Container>
-                )}
-            </BlogPostContainer>
+                </BlogPostContainer>
+            </ThemeProvider>
         </>
     );
 };

@@ -5,13 +5,14 @@ import { TextField, Button, createTheme, ThemeProvider } from "@mui/material";
 import loginImage from "../Images/login-image.jpg";
 import LoggedInContext from "../Context/LoggedInContext";
 import UserContext from "../Context/UserContext";
+import { useCookies } from "react-cookie";
 import config from "../config";
 
 const ApiUrl = config[process.env.REACT_APP_NODE_ENV || "development"].apiUrl;
 
 const Login = () => {
     const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
-    const [user, setUser] = useContext(UserContext);
+    const [cookies, setCookie] = useCookies(["access_token"]);
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
@@ -32,11 +33,17 @@ const Login = () => {
 
         fetch(`${ApiUrl}/api/login`, postOptions)
             .then((response) => response.json())
-            .then(() => {
-                setUser(data);
-                setLoggedIn(true);
-                navigate("/my-blogs");
-                // window.location.reload();
+            .then((data) => {
+                if (!document.cookie.includes("access_token")) {
+                    let cookieName = Object.keys(data)[0];
+                    let cookieValue = Object.values(data)[0];
+                    setCookie(cookieName, cookieValue);
+                    setLoggedIn(true);
+                    navigate("/my-blogs");
+                    window.location.reload();
+                } else {
+                    return -1;
+                }
             })
             .catch((error) => console.log(error));
     };
