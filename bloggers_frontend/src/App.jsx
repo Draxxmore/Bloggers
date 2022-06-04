@@ -16,6 +16,9 @@ const App = () => {
     const [user, setUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
 
+    console.log(user);
+    console.log(loggedIn);
+
     useEffect(() => {
         if (cookies.access_token) {
             const userInfo = JSON.parse(atob(cookies.access_token.split(".")[1]));
