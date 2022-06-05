@@ -8,7 +8,7 @@ require("dotenv").config();
 router.use(express.json());
 
 router.post("/", async (request, response) => {
-  const username = request.body.username;
+  const username = request.body.username.toLowerCase().trim();
   const password = request.body.password;
 
   if (!username || !password) {
@@ -16,22 +16,21 @@ router.post("/", async (request, response) => {
   }
 
   const userInDb = await getUsers().then((data) => {
-    if (data.length === 0) {
-      return response.status(400).json({ Error: "User does not does not exist" });
-    }
-
-    const user = data.filter((user) => user.username === request.body.username);
-
+    const user = data.filter((user) => user.username === username);
     return user;
   });
 
-  const passwordCheck = await bcrypt.compare(password, userInDb[0].password);
-
-  if (passwordCheck) {
-    const signedJWT = jwt.sign(JSON.stringify(userInDb), process.env.ACCESS_TOKEN);
-    return response.status(201).json({ access_token: signedJWT });
+  if (userInDb.length < 1) {
+    return response.status(403).json({ Error: "Username/password incorrect" });
   } else {
-    return response.status(403).send({ Error: "Username/password incorrect" });
+    const passwordCheck = await bcrypt.compare(password, userInDb[0].password);
+
+    if (passwordCheck) {
+      const signedJWT = jwt.sign(JSON.stringify(userInDb), process.env.ACCESS_TOKEN);
+      return response.status(201).json({ access_token: signedJWT });
+    } else {
+      return response.status(403).send({ Error: "Username/password incorrect" });
+    }
   }
 });
 
