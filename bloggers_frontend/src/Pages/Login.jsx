@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TextField, Button, createTheme, ThemeProvider } from "@mui/material";
 import loginImage from "../Images/login-image.jpg";
 import LoggedInContext from "../Context/LoggedInContext";
-import UserContext from "../Context/UserContext";
 import { useCookies } from "react-cookie";
 import config from "../config";
 
@@ -53,8 +52,6 @@ const Login = () => {
         fetch(`${ApiUrl}/api/login`, postOptions)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
-
                 if (data.Error) {
                     if (data.Error.includes("Username/password incorrect")) {
                         return setBadPassword(true);

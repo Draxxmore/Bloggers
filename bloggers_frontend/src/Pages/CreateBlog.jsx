@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Header from "../Components/Header";
-import { Box, TextField, Button, ThemeProvider, createTheme } from "@mui/material";
+import { TextField, Button, ThemeProvider, createTheme } from "@mui/material";
 import styled from "styled-components";
 import UserContext from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -90,7 +90,5 @@ const PageTitle = styled.h1`
     font-family: "Arial", san-serif;
     margin-bottom: 0px;
 `;
-
-const ButtonContainer = styled.div``;
 
 export default CreateBlog;

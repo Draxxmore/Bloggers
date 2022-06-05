@@ -48,10 +48,4 @@ const CardsContainer = styled.div`
     flex-wrap: wrap;
 `;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: right;
-    margin: 10px;
-`;
-
 export default MainPage;
