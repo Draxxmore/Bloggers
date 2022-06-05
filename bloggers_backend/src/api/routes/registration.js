@@ -17,7 +17,7 @@ router.post("/", async (request, response) => {
   const user = {
     first_name: request.body.firstName,
     last_name: request.body.lastName,
-    username: request.body.username,
+    username: request.body.username.toLowerCase(),
     password: hashedPassword,
   };
 
