@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TextField, Button, createTheme, ThemeProvider } from "@mui/material";
@@ -14,9 +14,28 @@ const Login = () => {
     const [loggedIn, setLoggedIn] = useContext(LoggedInContext);
     const [cookies, setCookie] = useCookies(["access_token"]);
     const navigate = useNavigate();
+    const [badPassword, setBadPassword] = useState(false);
+    const [blankInput, setBlankInput] = useState(false);
+    const [errorMessage, setErrorMessage] = useState({
+        badPasswordMessage: "Bad username/password",
+        blankInputMessage: "You must input a username and/or password",
+    });
+
+    const errorHandler = () => {
+        if (badPassword) {
+            return errorMessage.badPasswordMessage;
+        } else if (blankInput) {
+            return errorMessage.blankInputMessage;
+        } else {
+            return "";
+        }
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        setBadPassword(false);
+        setBlankInput(false);
 
         const loginInfo = {
             username: document.getElementById("login-username").value,
@@ -34,6 +53,17 @@ const Login = () => {
         fetch(`${ApiUrl}/api/login`, postOptions)
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
+
+                if (data.Error) {
+                    if (data.Error.includes("Username/password incorrect")) {
+                        return setBadPassword(true);
+                    }
+                    if (data.Error.includes("Username/password cannot be blank")) {
+                        return setBlankInput(true);
+                    }
+                }
+
                 if (!document.cookie.includes("access_token")) {
                     let cookieName = Object.keys(data)[0];
                     let cookieValue = Object.values(data)[0];
@@ -41,8 +71,6 @@ const Login = () => {
                     setLoggedIn(true);
                     navigate("/my-blogs");
                     window.location.reload();
-                } else {
-                    return -1;
                 }
             })
             .catch((error) => console.log(error));
@@ -64,6 +92,8 @@ const Login = () => {
                         variant="standard"
                         label="Password"
                         type="password"
+                        error={badPassword || blankInput ? true : false}
+                        helperText={errorHandler()}
                         sx={{ width: "60%", margin: 3, marginBottom: 5 }}
                     />
                     <ThemeProvider theme={limeGreenButtonTheme}>
@@ -71,9 +101,9 @@ const Login = () => {
                             Sign in
                         </Button>
                     </ThemeProvider>
-                    <div>
+                    <Register>
                         Not a member? <RegisterLink to="/registration">Register</RegisterLink>
-                    </div>
+                    </Register>
                 </LoginForm>
                 <Image src={loginImage} />
             </LoginContainer>
@@ -86,7 +116,7 @@ const PageSettings = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 98vh;
+    height: 100vh;
 `;
 
 const LoginContainer = styled.div`
@@ -117,14 +147,19 @@ const LoginForm = styled.div`
     height: 70vh;
 `;
 
+const Register = styled.div`
+    font-family: "Arial", san-serif;
+    font-size: 12px;
+`;
+
 const RegisterLink = styled(Link)`
     text-decoration: none;
     color: blue;
 `;
 
 const Image = styled.img`
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     align-self: center;
     border-radius: 10px;
 `;

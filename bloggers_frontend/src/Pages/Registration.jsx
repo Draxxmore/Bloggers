@@ -24,7 +24,6 @@ const Registration = () => {
 
         if (password !== confirmPassword) {
             setPasswordError(true);
-            setPasswordErrorMsg("Passwords Must Match!");
             return;
         }
 
@@ -67,7 +66,7 @@ const Registration = () => {
                         label="Confirm Password"
                         sx={{ marginBottom: 2 }}
                         error={passwordError}
-                        helperText={passwordErrorMsg}
+                        helperText={passwordError ? "Passwords must match" : ""}
                     ></TextField>
                     <ThemeProvider theme={limeGreenButtonTheme}>
                         <Button variant="contained" sx={{ borderRadius: 10, marginTop: 5, width: "75%", alignSelf: "center" }} onClick={handleSubmit}>
@@ -89,7 +88,7 @@ const Registration = () => {
 
 const PageSettings = styled.div`
     background: salmon;
-    height: 98vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,6 +118,7 @@ const Title = styled.h1`
     padding: 0px;
     text-align: center;
     margin-bottom: 50px;
+    font-family: "Arial", san-serif;
 `;
 
 const Text = styled.h2`
